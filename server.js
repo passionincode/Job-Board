@@ -15,9 +15,9 @@ app.use(express.static(__dirname + '/public'));
 //Angualar will handle routing
 //res & res are objects
 app.get('*', function(req, res) {
-	res.render('index');
+    res.render('index');
 });
 
 //Where to listen to requests
-app.listen(3000);
+app.listen(process.env.PORT, process.env.IP);
 console.log("debugger listening on port " + "3000");
