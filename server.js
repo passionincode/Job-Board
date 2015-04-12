@@ -1,6 +1,6 @@
 var express = require('express');
-var mongoose = require('mongoose');
-var jobModel = require('./models/Job')
+var jobModel = require('./models/Job');
+var jobsData = require('./jobs-data.js')
 
 var app = express();
 
@@ -14,7 +14,7 @@ app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/api/jobs', function(req, res) {
-    mongoose.model('Job').find({}).exec(function(error, collection) {
+    jobsData.findJobs().then(function(collection) {
         res.send(collection);
     })
 })
@@ -25,14 +25,12 @@ app.get('*', function(req, res) {
     res.render('index');
 });
 
-//Connect to mongoose db
-mongoose.connect("mongodb://admin:AlphaOmega116@ds061611.mongolab.com:61611/jobworkspaceapp")
-var con = mongoose.connection;
-
-con.once('open', function() {
-    console.log("connected to mongoose successfully!");
-    jobModel.seedJobs();
-});
+//Connect to mongoose db\
+jobsData.connectDB("mongodb://admin:AlphaOmega116@ds061611.mongolab.com:61611/jobworkspaceapp")
+    .then(function() {
+        console.log("connected to mongoose successfully!");
+        jobsData.seedJobs();
+    });
 
 //Where to listen to requests
 app.listen(process.env.PORT || 3000, process.env.IP);
