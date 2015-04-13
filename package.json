@@ -13,5 +13,8 @@
     "express": "^4.12.3",
     "jade": "^1.9.2",
     "mongoose": "^4.0.1"
+  },
+  "devDependencies": {
+    "karma-chrome-launcher": "^0.1.7"
   }
 }

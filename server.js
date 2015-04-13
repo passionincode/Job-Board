@@ -1,8 +1,11 @@
 var express = require('express');
 var jobModel = require('./models/Job');
-var jobsData = require('./jobs-data.js')
+var jobsData = require('./jobs-data.js');
+
 
 var app = express();
+
+require('./jobs-service.js')(jobsData, app);
 
 //Tell node where views are located
 app.set('views', __dirname);
@@ -12,12 +15,6 @@ app.set('view engine', 'jade');
 
 //Make bower components available to views 
 app.use(express.static(__dirname + '/public'));
-
-app.get('/api/jobs', function(req, res) {
-    jobsData.findJobs().then(function(collection) {
-        res.send(collection);
-    })
-})
 
 //Angualar will handle routing
 //res & res are objects
